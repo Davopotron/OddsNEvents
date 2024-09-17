@@ -21,6 +21,8 @@ function sortOne() {
   }
 }
 
+
+
 // Sort all numbers
 
 function sortAll() {
