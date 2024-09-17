@@ -1,30 +1,34 @@
 // TODO: this file! :)
 
-const numbers = {
-  numberBank: [],
-  oddNumber: [],
-  evenNumber: [],
-};
+const numberBank = [];
+const oddNumber = [];
+const evenNumber = [];
+
+// Add num to bank
+
+function addToBank(number) {
+  numberBank.push(number);
+}
 
 // Sort individual numbers
 
 function sortOne() {
+  const number = numberBank.shift();
   if (number % 2 === 0) {
-    const number = numbers.numberBank.pop();
-    numbers.evenNumber.push(number);
+    evenNumber.push(number);
   } else {
-    numbers.oddNumber.push(number);
+    oddNumber.push(number);
   }
 }
 
 // Sort all numbers
 
 function sortAll() {
-  numbers.numberBank.forEach((number) => {
+  numberBank.forEach((number) => {
     if (number % 2 === 0) {
-      numbers.evenNumber.push(number);
+      evenNumber.push(number);
     } else {
-      numbers.oddNumber.push(number);
+      oddNumber.push(number);
     }
   });
 }
@@ -33,18 +37,25 @@ function sortAll() {
 
 // Render nums to numBank
 
-function renderNumberBank() {
-  const renderedNumbers = numbers.numberBank.map((number)
-=> { 
-
-}
-)
- 
+function renderNumberBank(numbers, $element) {
+  const $numbers = numbers.map((number) => {
+    const $number = document.createElement("span");
+    $number.textContent = number;
+    return $number;
+  });
+  $element.replaceChildren(...$numbers);
 }
 
 // === Script ===
 
-render();
+function render() {
+  const $numberBank = document.querySelector("#numberBank output");
+  renderNumberBank(numberBank, $numberBank);
+  const $oddNumber = document.querySelector("#odds output");
+  renderNumberBank(oddNumber, $oddNumber);
+  const $evenNumber = document.querySelector("#evens output");
+  renderNumberBank(evenNumber, $evenNumber);
+}
 
 // When the user clicks the "Add Number" button,
 // the number they entered into the input field should be added to the number bank.
@@ -53,29 +64,31 @@ const $form = document.querySelector("form");
 $form.addEventListener("submit", (event) => {
   event.preventDefault();
 
-  const $numberInput = document.querySelector("#number");
-  if (isNaN(number) == false) {
-    for (let i = 0; i < $numberInput.value; i++) {
-      numbers.numberBank.push(number);
-      // This could be numberInput ^
-    }
+  const $number = document.querySelector("#number");
+  const number = $number.value;
+  if (number.length === 0 || isNaN(number)) {
+    console.error("Input must be a number");
   }
+
+  $number.value = "";
+  addToBank(number);
   render();
 });
 
-// When the sort 1 buttion is clicked,
-// remove first number and sort to odd or even
+// Sort one
 
-const $Sort1 = document.querySelector("#sortOne");
-$Sort1.addEventListener("click", () => {
+const $sortOne = document.querySelector("#sortOne");
+$sortOne.addEventListener("click", () => {
   sortOne();
-
   render();
 });
+
+//  Sort all
 
 const $SortAll = document.querySelector("#sortAll");
 $SortAll.addEventListener("click", () => {
   sortAll();
-
   render();
 });
+
+render();
