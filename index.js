@@ -9,6 +9,8 @@ const evenNumber = [];
 function addToBank(number) {
   numberBank.push(number);
 }
+//this 
+
 
 // Sort individual numbers
 
